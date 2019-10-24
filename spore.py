@@ -99,6 +99,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                pos = pygame.mouse.get_pos()
+                field_matrix[pos[1] // 10][pos[0] // 10] = 2
 
 
 
