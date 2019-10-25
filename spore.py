@@ -19,18 +19,19 @@ def main():
     feed = 1
     font = pygame.font.Font('PixelFont.ttf', 36)
     free = 5
+    tic2 = 0
 
     pygame.display.update()
     while True:
-        pygame.time.delay(30)
+        pygame.time.delay(100)
         window.fill((20, 0, 0))
         field_surface.fill((0, 0, 0))
         field_matrix_copy = copy.deepcopy(field_matrix)
         tic += 1
         t_feed = font.render('score:' + str(free), 0, (0, 135, 72))
         t_side = font.render('side:' + str(side), 0, (0, 135, 72))
-        window.blit(t_feed, (600, 50))
-        window.blit(t_side, (600, 100))
+        window.blit(t_feed, (550, 50))
+        window.blit(t_side, (550, 100))
 
         if tic == 1:                    # food spawn
             xseed = randint(6, 44)
@@ -70,7 +71,6 @@ def main():
                                                 side = [(ydif*ydif) + (xdif*xdif), y - 1, x]
                                             else:
                                                 side = [(ydif*ydif) + (xdif*xdif), y + 1, x]
-        print(side, feed)
         field_matrix[side[1]][side[2]] = 1
 
         if side[0] == 1:
@@ -93,6 +93,21 @@ def main():
             cords = circuit[randint(0, len(circuit) - 1)]
             field_matrix[cords[0]][cords[1]] = 1
             free -= 1
+
+        square = []
+        if tic2 == 7:
+            for y in range(50):  # dying
+                for x in range(50):
+                    if field_matrix_copy[y][x] == 1:
+                        if field_matrix[y - 1][x] != 1 or field_matrix[y + 1][x] != 1 or field_matrix[y][x + 1] != 1 or field_matrix[y][x - 1] != 1:
+                            if field_matrix[y - 1][x] == 1 or field_matrix[y + 1][x] == 1 or field_matrix[y][x + 1] == 1 or field_matrix[y][x - 1] == 1:
+                                square.append([y, x])
+            tic2 = 0
+        else:
+            tic2 += 1
+        if square:
+            cords = square[randint(0, len(square) - 1)]
+            field_matrix[cords[0]][cords[1]] = 0
 
         window.blit(field_surface, (0, 0))
         pygame.display.update()
