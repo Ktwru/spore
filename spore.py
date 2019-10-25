@@ -21,6 +21,8 @@ def main():
     free = 5
     tic2 = 0
     size = 0
+    pygame.mixer.music.load('mim.mp3')
+    pygame.mixer.music.play()
 
     pygame.display.update()
     while True:
