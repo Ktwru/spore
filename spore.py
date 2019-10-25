@@ -20,6 +20,7 @@ def main():
     font = pygame.font.Font('PixelFont.ttf', 36)
     free = 5
     tic2 = 0
+    size = 0
 
     pygame.display.update()
     while True:
@@ -28,10 +29,13 @@ def main():
         field_surface.fill((0, 0, 0))
         field_matrix_copy = copy.deepcopy(field_matrix)
         tic += 1
-        t_feed = font.render('score:' + str(free), 0, (0, 135, 72))
-        t_side = font.render('side:' + str(side), 0, (0, 135, 72))
+        t_feed = font.render('resources:' + str(free), 0, (0, 135, 72))
+        t_side = font.render('todo:' + str(side), 0, (0, 135, 72))
+        t_size = font.render('size:' + str(size), 0, (0, 135, 72))
         window.blit(t_feed, (550, 50))
         window.blit(t_side, (550, 100))
+        window.blit(t_size, (550, 150))
+        size = 0
 
         if tic == 1:                    # food spawn
             xseed = randint(6, 44)
@@ -44,6 +48,7 @@ def main():
         for y in range(50):                # viasualisation
             for x in range(50):
                 if field_matrix_copy[y][x] == 1:
+                    size += 1
                     if field_matrix[y-1][x] != 1 or field_matrix[y+1][x] != 1 or field_matrix[y][x+1] != 1 or field_matrix[y][x-1] != 1:
                         pygame.draw.rect(field_surface, (0, 28, 89), (x * 10, y * 10, 10, 10))
                     elif field_matrix[y - 3][x] == 1 and field_matrix[y + 3][x] == 1 and field_matrix[y][x + 3] == 1 and field_matrix[y][x - 3] == 1:
